@@ -17,7 +17,7 @@ var api = new ParseServer({
   appId: process.env.APP_ID || '9dNCAwH7vA2ni7XTATXKsGQnNRCnwH7XVEKUgWyk',
   masterKey: process.env.MASTER_KEY || 'seXsSDxuUaarP0gN6pCikpJiZZgKgKLiU0p8KJal', //Add your master key here. Keep it secret!
   fileKey: process.env.FILE_KEY || '921ecb74-b3b2-42f1-ad6e-b66d4bff17a6',
-  serverURL: process.env.SERVER_URL || 'http://powerful-sea-98641.herokuapp.com:1337/parse',  // Don't forget to change to https if needed
+  serverURL: process.env.SERVER_URL || 'http://weightsndates-server-prod.herokuapp.com:1337/parse',  // Don't forget to change to https if needed
   liveQuery: {
     classNames: ["Posts", "Comments"] // List of classes to support for query subscriptions
   }
