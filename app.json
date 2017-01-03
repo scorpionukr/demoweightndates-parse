@@ -11,15 +11,15 @@
     },
     "APP_ID": {
       "description": "A unique identifier for your app.",
-      "value": "9dNCAwH7vA2ni7XTATXKsGQnNRCnwH7XVEKUgWyk"
+      "value": "7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt"
     },
     "MASTER_KEY": {
       "description": "A key that overrides all permissions. Keep this secret.",
-      "value": "9lIcrFgrBMYJIZJh8z2ya4hS2BRzSYdt1e7Z8Vbo"
+      "value": "yFDKPty9Eob0j1jP1tf7Ln3ISnWP4pCI7G0MBcmh"
     },
     "SERVER_URL": {
       "description": "URL to connect to your Heroku instance (update with your app's name + PARSE_MOUNT)",
-      "value": "http://powerful-sea-98641.herokuapp.com/parse"
+      "value": "http://weightsndates-server-dev.herokuapp.com/parse"
     }
   },
   "image": "heroku/nodejs",
