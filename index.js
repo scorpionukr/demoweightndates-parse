@@ -29,7 +29,7 @@ var api = new ParseServer({
         bundleId: 'com.wnd',
         production: false
       }
-    }
+    },
   liveQuery: {
     classNames: ["Posts", "Comments"] // List of classes to support for query subscriptions
   }
