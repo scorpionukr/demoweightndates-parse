@@ -24,7 +24,7 @@ var api = new ParseServer({
         //apiKey: '...'
       //},
       ios: {
-        pfx: 'http://52.29.229.166/wnd.p12',
+        pfx: 'wnd.p12',
         passphrase: 'kosmos1960', // optional password to your p12/PFX
         bundleId: 'com.wnd',
         production: false
