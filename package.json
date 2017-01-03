@@ -15,7 +15,8 @@
     "parse-server": "~2.2.12"
   },
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "heroku-prebuild": "echo $APNS_KEY | base64 --decode > wnd.p12"
   },
   "engines": {
     "node": ">=4.3"
