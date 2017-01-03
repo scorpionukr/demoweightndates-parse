@@ -18,6 +18,18 @@ var api = new ParseServer({
   masterKey: process.env.MASTER_KEY || 'yFDKPty9Eob0j1jP1tf7Ln3ISnWP4pCI7G0MBcmh', //Add your master key here. Keep it secret!
   fileKey: process.env.FILE_KEY || '86f11687-2383-4c75-8206-944901d1946d',
   serverURL: process.env.SERVER_URL || 'https://weightsndates-server-dev.herokuapp.com:1337/parse',  // Don't forget to change to https if needed
+  push: {
+      //android: {
+        //senderId: '...',
+        //apiKey: '...'
+      //},
+      ios: {
+        pfx: 'http://svitla.com/wnd.p12',
+        passphrase: 'kosmos1960', // optional password to your p12/PFX
+        bundleId: 'com.wnd',
+        production: false
+      }
+    }
   liveQuery: {
     classNames: ["Posts", "Comments"] // List of classes to support for query subscriptions
   }
