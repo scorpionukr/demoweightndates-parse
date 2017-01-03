@@ -15,8 +15,8 @@
     "parse-server": "~2.2.12"
   },
   "scripts": {
-    "start": "node index.js",
-    "heroku-prebuild": "echo base64 wnd.p12 | base64 --decode > wnd.p12"
+    "start": "node index.js"
+    //"heroku-prebuild": "echo base64 wnd.p12 | base64 --decode > wnd.p12"
   },
   "engines": {
     "node": ">=4.3"
