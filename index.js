@@ -24,18 +24,19 @@ var api = new ParseServer({
         apiKey: 'AAAAkHP4OBw:APA91bH8M4-AIlmNdlty1Wk4glio_3gByJpj5l8mYSIpNVM3FWrp6b6gHl8I7X-bdGykX-369gm3UOBpRZtbBcefrELUoVwPqkAhWmD-mGlAgFkxVdxa7EIfVQ2crRJhTbPSDZ5fkhR_'
       },
       ios: [
-      {
-        pfx: 'wnd.p12', // Dev PFX or P12
-        passphrase: 'kosmos1960',
-        bundleId: 'com.wnd',
-        production: false // Dev
-      },
-      {
-        pfx: '', // Prod PFX or P12
-        bundleId: '',  
-        production: true // Prod
-      }
-    ]
+        {
+          pfx: 'wnd.p12', // Dev PFX or P12
+          passphrase: 'kosmos1960',
+          bundleId: 'com.wnd',
+          production: false // Dev
+        },
+        {
+          pfx: 'wnd.p12', // Prod PFX or P12
+          passphrase: 'kosmos1960',
+          bundleId: 'com.wnd',  
+          production: true // Prod
+        }
+      ]
     },
   liveQuery: {
     classNames: ["Posts", "Comments"] // List of classes to support for query subscriptions
