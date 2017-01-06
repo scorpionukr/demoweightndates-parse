@@ -31,7 +31,7 @@ var api = new ParseServer({
           production: false // Dev
         },
         {
-          pfx: 'wnd.p12', // Prod PFX or P12
+          pfx: 'apns_prod.p12', // Prod PFX or P12
           passphrase: 'kosmos1960',
           bundleId: 'com.wnd',  
           production: true // Prod
