@@ -1,19 +1,8 @@
 var Parse = require('parse-cloud-express').Parse;
 
-Parse.Cloud.define("hello", function(request, response) {
-    console.log('Run cloud function.');
-    // As with Parse-hosted Cloud Code, the user is available at: request.user
-    // You can get the users session token with: request.user.getSessionToken()
-    // Use the session token to run other Parse Query methods as that user, because
-    //   the concept of a 'current' user does not fit in a Node environment.
-    //   i.e.  query.find({ sessionToken: request.user.getSessionToken() })...
-    response.success("Hello world! " + (request.params.a + request.params.b));
-});
-
-
 // Send pushes block
 
-Parse.Cloud.define("sendToDevice", function (request, response) {
+Parse.Cloud.define("CloudSendToDevice", function (request, response) {
     console.log('Run cloud function to forward message to user');
     // As with Parse-hosted Cloud Code, the user is available at: request.user
     // You can get the users session token with: request.user.getSessionToken()
@@ -49,7 +38,7 @@ Parse.Cloud.define("sendToDevice", function (request, response) {
 
 });
 
-Parse.Cloud.afterSave("ShowMatchWithUser", function (request) {
+Parse.Cloud.afterSave("CloudShowMatchWithUser", function (request) {
 
     //Create conversation with status active
 
@@ -79,7 +68,7 @@ Parse.Cloud.afterSave("ShowMatchWithUser", function (request) {
  });
  * */
 
-Parse.Cloud.afterSave("SendPush", function (request) {
+Parse.Cloud.afterSave("CloudSendPush", function (request) {
 
     var query = new Parse.Query(Parse.Installation);
     query.exists("deviceToken");
@@ -108,9 +97,9 @@ Parse.Cloud.afterSave("SendPush", function (request) {
 /*
  * Method to send Message to all Android devices
  * Test from CURL
- * curl -X POST -H "X-Parse-Application-Id: 7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt" -H "Content-Type: application/json" -d '{"action": "SEND_PUSH", "message": "Hello Android", "customData": "Android Data"}' https://weightsndates-server-dev.herokuapp.com:1337/parse/functions/pushChannelPipeTest
+ * curl -X POST -H "X-Parse-Application-Id: 7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt" -H "X-Parse-REST-API-Key: yFDKPty9Eob0j1jP1tf7Ln3ISnWP4pCI7G0MBcmh"  -H "Content-Type: application/json" -d "{\"action\": \"SEND_PUSH\", \"message\": \"Hello Android\", \"customData\": \"Android Data\"}"  https://weightsndates-server-dev.herokuapp.com/parse/classes/CloudPushChannelPipeTest
  * */
-Parse.Cloud.define('pushChannelPipeTest', function (request, response) {
+Parse.Cloud.define('CloudPushChannelPipe', function (request, response) {
 
     // request has 2 parameters: params passed by the client and the authorized user
     var params = request.params;
@@ -151,7 +140,7 @@ Parse.Cloud.define('pushChannelPipeTest', function (request, response) {
 });
 
 
-Parse.Cloud.define("MatchWithUser", function (request) {
+Parse.Cloud.define("CloudMatchWithUser", function (request) {
 
     var query = new Parse.Query(Parse.Installation);
     query.exists("deviceToken");
@@ -177,7 +166,7 @@ Parse.Cloud.define("MatchWithUser", function (request) {
         });
 });
 
-Parse.Cloud.define("UsersRequest", function (request) {
+Parse.Cloud.define("CloudUsersRequest", function (request) {
 
     var query = new Parse.Query(Parse.Installation);
     query.exists("deviceToken");
@@ -207,7 +196,7 @@ Parse.Cloud.define("UsersRequest", function (request) {
 //CHAT BLOCK
 
 //chat message on conversation on before save
-Parse.Cloud.beforeSave("ProcessChatMessage", function(request, response) {
+Parse.Cloud.beforeSave("CloudProcessChatMessage", function (request, response) {
     var comment = request.object.get("message");
 
     //CHECK SIZE AND SET MESSAGE SHORTER if it so big before SAVE
@@ -219,23 +208,33 @@ Parse.Cloud.beforeSave("ProcessChatMessage", function(request, response) {
 });
 
 
-//TEST BLOCK
+//BASIC TEST BLOCK
 
-Parse.Cloud.beforeSave('TestObject', function (request, response) {
+Parse.Cloud.beforeSave('CloudTestObject', function (request, response) {
     console.log('Ran beforeSave on objectId: ' + request.object.id);
     // if update the request object, we need to send it back with the response
     response.success(request.object);
 });
 
-Parse.Cloud.afterSave('TestObject', function (request, response) {
+Parse.Cloud.afterSave('CloudTestObject', function (request, response) {
     console.log('Ran afterSave on objectId: ' + request.object.id);
 });
 
-Parse.Cloud.beforeDelete('TestObject', function (request, response) {
+Parse.Cloud.beforeDelete('CloudTestObject', function (request, response) {
     console.log('Ran beforeDelete on objectId: ' + request.object.id);
     response.success();
 });
 
-Parse.Cloud.afterDelete('TestObject', function (request, response) {
+Parse.Cloud.afterDelete('CloudTestObject', function (request, response) {
     console.log('Ran afterDelete on objectId: ' + request.object.id);
+});
+
+Parse.Cloud.define("CloudHello", function (request, response) {
+    console.log('Run cloud function.');
+    // As with Parse-hosted Cloud Code, the user is available at: request.user
+    // You can get the users session token with: request.user.getSessionToken()
+    // Use the session token to run other Parse Query methods as that user, because
+    //   the concept of a 'current' user does not fit in a Node environment.
+    //   i.e.  query.find({ sessionToken: request.user.getSessionToken() })...
+    response.success("Hello world! " + (request.params.a + request.params.b));
 });
