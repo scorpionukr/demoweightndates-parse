@@ -1,5 +1,16 @@
 var Parse = require('parse-cloud-express').Parse;
 
+Parse.Cloud.define("hello", function(request, response) {
+    console.log('Run cloud function.');
+    // As with Parse-hosted Cloud Code, the user is available at: request.user
+    // You can get the users session token with: request.user.getSessionToken()
+    // Use the session token to run other Parse Query methods as that user, because
+    //   the concept of a 'current' user does not fit in a Node environment.
+    //   i.e.  query.find({ sessionToken: request.user.getSessionToken() })...
+    response.success("Hello world! " + (request.params.a + request.params.b));
+});
+
+
 // Send pushes block
 
 Parse.Cloud.define("sendToDevice", function (request, response) {
