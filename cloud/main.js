@@ -112,7 +112,8 @@ Parse.Cloud.define('pushChannelPipeTest', function (request, response) {
 
     // use to custom tweak whatever payload you wish to send
     var pushQuery = new Parse.Query(Parse.Installation);
-    pushQuery.equalTo("deviceType", "android");
+    //pushQuery.equalTo("deviceType", "android");
+    pushQuery.equalTo("objectId", "i4k7Y4m4d2");
 
     var payload = {
         "data": {
@@ -125,6 +126,7 @@ Parse.Cloud.define('pushChannelPipeTest', function (request, response) {
     // Note that useMasterKey is necessary for Push notifications to succeed.
 
     Parse.Push.send({
+        data: payload,
         where: pushQuery,      // for sending to a specific channel                                                                                                                                 data: payload,
     }, {
         success: function () {
