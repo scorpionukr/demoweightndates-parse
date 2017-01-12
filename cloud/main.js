@@ -12,7 +12,7 @@ Parse.Cloud.define("CloudSendToDevice", function (request, response) {
 
     var token = request.user.getSessionToken();
     //request.params.get
-    var testObjectId = request.user.getSess;
+    //var testObjectId = request.user.getSess;
 
     //response.success("Hello world! " + (request.params.a + request.params.b));
 
@@ -38,6 +38,35 @@ Parse.Cloud.define("CloudSendToDevice", function (request, response) {
 
 });
 
+Parse.Cloud.define("CloudMatchWithUser", function (request) {
+
+    var query = new Parse.Query(Parse.User);
+
+    if (request.params.like) {
+        //request.object.id
+        query.equalTo("likedUsers", request.user.fbid).equalTo("objectId", request.user.id);
+
+
+        query.find({
+            success: function (results) {
+                console.log('Matched');
+                response.success("Matched");
+
+                //.then call CloudShowMatchWithUser
+            },
+            error: function () {
+                console.log('No match');
+                response.error("No match");
+            }
+        });
+
+    } else {
+        //[[PFUser currentUser] addObject:user[@"fbid"] forKey:@"viewedUsers"];
+        //query.insert
+    }
+
+});
+
 Parse.Cloud.afterSave("CloudShowMatchWithUser", function (request) {
 
     //Create conversation with status active
@@ -45,9 +74,22 @@ Parse.Cloud.afterSave("CloudShowMatchWithUser", function (request) {
     // For this user send push
     // NSDictionary *data=@{@"alert":[NSString stringWithFormat:@"You and %@ are a match!", [PFUser currentUser][@"firstName"]], @"badge":@"Increment", @"sound":@"default", @"WDPushType":@"WDPushTypeMatch"};
 
+    var query = new Parse.Query(Parse.Conversation);
+
+    var Conversation = Parse.Object.extend("Conversation");
+    var conversationObject = new Conversation();
+    conversationObject.save({fromUser: request.user});
+
+    //conversation=[PFObject objectWithClassName:@"Conversation"];
+    //[conversation setObject:[PFUser currentUser] forKey:@"fromUser"];
+    //[conversation setObject:user forKey:@"toUser"];
+    //[conversation setObject:@(WDConversationStatusActive) forKey:@"status"];
+
     //user == user.objectId
 
 });
+
+//fbid 598736206971991
 
 
 /*
