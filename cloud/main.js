@@ -38,31 +38,32 @@ Parse.Cloud.define("CloudSendToDevice", function (request, response) {
 
 });
 
-Parse.Cloud.define("CloudMatchWithUser", function (request) {
+Parse.Cloud.beforeSave("CloudMatchWithUser", function (request) {
 
     var query = new Parse.Query(Parse.User);
 
     if (request.params.like) {
         //request.object.id
-        query.equalTo("likedUsers", request.user.fbid).equalTo("objectId", request.user.id);
+        query.contains("likedUsers", request.user.fbid).equalTo("objectId", request.likedUserId);
 
 
         query.find({
             success: function (results) {
                 console.log('Matched');
-                response.success("Matched");
+                response.success(200, "Successfully Matched");
 
                 //.then call CloudShowMatchWithUser
             },
             error: function () {
                 console.log('No match');
-                response.error("No match");
+                response.error(201, "Match No match");
             }
         });
 
     } else {
         //[[PFUser currentUser] addObject:user[@"fbid"] forKey:@"viewedUsers"];
         //query.insert
+        response.success(200, "Temporary success response on Like = False");
     }
 
 });
@@ -139,7 +140,7 @@ Parse.Cloud.afterSave("CloudSendPush", function (request) {
 /*
  * Method to send Message to all Android devices
  * Test from CURL
- * curl -X POST -H "X-Parse-Application-Id: 7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt" -H "X-Parse-REST-API-Key: yFDKPty9Eob0j1jP1tf7Ln3ISnWP4pCI7G0MBcmh"  -H "Content-Type: application/json" -d "{\"action\": \"SEND_PUSH\", \"message\": \"Hello Android\", \"customData\": \"Android Data\"}"  https://weightsndates-server-dev.herokuapp.com/parse/classes/CloudPushChannelPipeTest
+ * curl -X POST -H "X-Parse-Application-Id: 7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt" -H "X-Parse-REST-API-Key: yFDKPty9Eob0j1jP1tf7Ln3ISnWP4pCI7G0MBcmh"  -H "Content-Type: application/json" -d "{\"action\": \"SEND_PUSH\", \"message\": \"Hello Android\", \"customData\": \"Android Data\"}"  https://weightsndates-server-dev.herokuapp.com/parse/classes/CloudPushChannelPipe
  * */
 Parse.Cloud.define('CloudPushChannelPipe', function (request, response) {
 
@@ -172,13 +173,13 @@ Parse.Cloud.define('CloudPushChannelPipe', function (request, response) {
         where: pushQuery,      // for sending to a specific channel                                                                                                                                 data: payload,
     }, {
         success: function () {
-            console.log("PUSH OK");
+            console.log("PushChannelPipe PUSH OK");
         }, error: function (error) {
-            console.log("PUSH ERROR" + error.message);
+            console.log("PushChannelPipe PUSH ERROR" + error.message);
         }, useMasterKey: true
     });
 
-    response.success('success');
+    response.success(200, 'success');
 });
 
 
