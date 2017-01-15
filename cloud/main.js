@@ -179,7 +179,11 @@ Parse.Cloud.define('CloudPushChannelPipe', function (request, response) {
         }, useMasterKey: true
     });
 
-    response.success(200, 'success');
+    var text = "success";
+    var jsonObject = {
+        "answer": text
+    };
+    response.success(jsonObject);
 });
 
 
