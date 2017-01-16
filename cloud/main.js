@@ -35,7 +35,6 @@ Parse.Cloud.define("CloudSendToDevice", function (request, response) {
         }
     });
 
-
 });
 
 Parse.Cloud.beforeSave("CloudMatchWithUser", function (request) {
@@ -72,8 +71,8 @@ Parse.Cloud.beforeSave("CloudMatchWithUser", function (request) {
             error: function () {
                 console.log('No match');
                 response.error(jsonFailObject);
-            }
-        });
+            }, useMasterKey: true
+        });//, {useMasterKey: true}
 
     } else {
         //[[PFUser currentUser] addObject:user[@"fbid"] forKey:@"viewedUsers"];
