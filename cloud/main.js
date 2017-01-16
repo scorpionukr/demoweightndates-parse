@@ -44,26 +44,41 @@ Parse.Cloud.beforeSave("CloudMatchWithUser", function (request) {
 
     if (request.params.like) {
         //request.object.id
-        query.contains("likedUsers", request.user.fbid).equalTo("objectId", request.likedUserId);
+        query.contains("likedUsers", request.fbId).equalTo("objectId", request.likedUserId);
 
+        var success = "success";
+        var fail = "failure";
+        var successTemporary = "Temporary success response on Like = False";
+        var jsonSuccessObject = {
+            "answer": success
+        };
+        var jsonSuccessTemporaryObject = {
+            "answer": successTemporary
+        };
+
+        var jsonFailObject = {
+            "answer": fail
+        };
 
         query.find({
             success: function (results) {
                 console.log('Matched');
-                response.success(200, "Successfully Matched");
+
+
+                response.success(jsonSuccessObject);
 
                 //.then call CloudShowMatchWithUser
             },
             error: function () {
                 console.log('No match');
-                response.error(201, "Match No match");
+                response.error(jsonFailObject);
             }
         });
 
     } else {
         //[[PFUser currentUser] addObject:user[@"fbid"] forKey:@"viewedUsers"];
         //query.insert
-        response.success(200, "Temporary success response on Like = False");
+        response.success(jsonSuccessTemporaryObject);
     }
 
 });
