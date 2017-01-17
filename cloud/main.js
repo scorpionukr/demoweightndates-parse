@@ -1,8 +1,10 @@
 var Parse = require('parse-cloud-express').Parse;
 
+//For additional JS file support call require('cloud/mainSplit.js');
+
 // Send pushes block
 
-Parse.Cloud.define("CloudSendToDevice", function (request, response) {
+Parse.Cloud.define('CloudSendToDevice', function (request, response) {
     console.log('Run cloud function to forward message to user');
     // As with Parse-hosted Cloud Code, the user is available at: request.user
     // You can get the users session token with: request.user.getSessionToken()
@@ -37,7 +39,9 @@ Parse.Cloud.define("CloudSendToDevice", function (request, response) {
 
 });
 
-Parse.Cloud.beforeSave("CloudMatchWithUser", function (request) {
+Parse.Cloud.beforeSave('CloudMatchWithUser', function (request) {
+
+    console.log('Run cloud function to match with user ' + request.likedUserId + ' fbId=' + request.fbId + ' like=' + request.params.like);
 
     var query = new Parse.Query(Parse.User);
     Parse.Cloud.useMasterKey();
@@ -60,10 +64,11 @@ Parse.Cloud.beforeSave("CloudMatchWithUser", function (request) {
             "answer": fail
         };
 
+        console.log('Cloud Match Before Find');
+
         query.find({
             success: function (results) {
                 console.log('Matched');
-
 
                 response.success(jsonSuccessObject);
 
@@ -73,17 +78,18 @@ Parse.Cloud.beforeSave("CloudMatchWithUser", function (request) {
                 console.log('No match');
                 response.error(jsonFailObject);
             }, useMasterKey: true
-        });//, {useMasterKey: true}
+        }, {useMasterKey: true});//,
 
     } else {
         //[[PFUser currentUser] addObject:user[@"fbid"] forKey:@"viewedUsers"];
         //query.insert
+        console.log('Cloud Match: Temporary success response on Like = False');
         response.success(jsonSuccessTemporaryObject);
     }
 
 });
 
-Parse.Cloud.afterSave("CloudShowMatchWithUser", function (request) {
+Parse.Cloud.afterSave('CloudShowMatchWithUser', function (request) {
 
     //Create conversation with status active
 
@@ -126,7 +132,7 @@ Parse.Cloud.afterSave("CloudShowMatchWithUser", function (request) {
  });
  * */
 
-Parse.Cloud.afterSave("CloudSendPush", function (request) {
+Parse.Cloud.afterSave('CloudSendPush', function (request) {
 
     var query = new Parse.Query(Parse.Installation);
     query.exists("deviceToken");
@@ -204,7 +210,7 @@ Parse.Cloud.define('CloudPushChannelPipe', function (request, response) {
 });
 
 
-Parse.Cloud.define("CloudMatchWithUser", function (request) {
+Parse.Cloud.define('CloudMatchWithUser', function (request) {
 
     var query = new Parse.Query(Parse.Installation);
     query.exists("deviceToken");
@@ -230,7 +236,7 @@ Parse.Cloud.define("CloudMatchWithUser", function (request) {
         });
 });
 
-Parse.Cloud.define("CloudUsersRequest", function (request) {
+Parse.Cloud.define('CloudUsersRequest', function (request) {
 
     var query = new Parse.Query(Parse.Installation);
     query.exists("deviceToken");
@@ -260,7 +266,7 @@ Parse.Cloud.define("CloudUsersRequest", function (request) {
 //CHAT BLOCK
 
 //chat message on conversation on before save
-Parse.Cloud.beforeSave("CloudProcessChatMessage", function (request, response) {
+Parse.Cloud.beforeSave('CloudProcessChatMessage', function (request, response) {
     var comment = request.object.get("message");
 
     //CHECK SIZE AND SET MESSAGE SHORTER if it so big before SAVE
@@ -293,7 +299,7 @@ Parse.Cloud.afterDelete('CloudTestObject', function (request, response) {
     console.log('Ran afterDelete on objectId: ' + request.object.id);
 });
 
-Parse.Cloud.define("CloudHello", function (request, response) {
+Parse.Cloud.define('CloudHello', function (request, response) {
     console.log('Run cloud function.');
     // As with Parse-hosted Cloud Code, the user is available at: request.user
     // You can get the users session token with: request.user.getSessionToken()
