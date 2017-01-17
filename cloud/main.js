@@ -40,6 +40,7 @@ Parse.Cloud.define("CloudSendToDevice", function (request, response) {
 Parse.Cloud.beforeSave("CloudMatchWithUser", function (request) {
 
     var query = new Parse.Query(Parse.User);
+    Parse.Cloud.useMasterKey();
 
     if (request.params.like) {
         //request.object.id
@@ -160,7 +161,9 @@ Parse.Cloud.define('CloudPushChannelPipe', function (request, response) {
 
     // request has 2 parameters: params passed by the client and the authorized user
     var params = request.params;
-    var user = request.user;
+    Parse.Cloud.useMasterKey();
+    var user = request.user; // request.user replaces Parse.User.current() // https://github.com/ParsePlatform/parse-server/wiki/Compatibility-with-Hosted-Parse
+    var token = user.getSessionToken(); // get session token from request.user
 
     // extract out the channel to send
     var action = params.action;
